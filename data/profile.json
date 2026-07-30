@@ -1,0 +1,71 @@
+{
+  "$comment": "Machine-readable learner profile. Consumed by the app for gap tracking and plan generation. Narrative version lives in docs/PROFILE.md.",
+  "schema_version": 1,
+  "compiled_at": "2026-07-30",
+  "learner": {
+    "name": "Iain Fletcher",
+    "location": "Coventry area, UK",
+    "current_role": "Senior Data Engineer",
+    "current_employer": "Dunelm",
+    "current_role_start": "2022-12",
+    "years_in_data": 9,
+    "career_start": 1997
+  },
+  "goal": {
+    "target_comp_gbp": 100000,
+    "current_comp_band_gbp": [70000, 85000],
+    "work_mode": "remote",
+    "market": "UK",
+    "timeline_months": [6, 12],
+    "weekly_hours": [5, 8],
+    "open_to": ["permanent_uk", "us_eu_remote", "contract_outside_ir35"],
+    "chosen_path": null,
+    "recommended_path": "ai_ml_engineer"
+  },
+  "diagnosis": {
+    "headline": "Receiving offers, but below target — a positioning and market-segment problem rather than a capability problem.",
+    "evidence": [
+      "Recent interview loops produced offers below target rather than rejections",
+      "Median UK data engineer salary ~£70k; lead/principal ~£85-91k — current comp is already near the band ceiling",
+      "Median remote/hybrid AI engineer salary ~£91k; UK senior range £90-150k base"
+    ],
+    "implication": "Skill acquisition alone cannot close the gap. The constraint is the salary band of the target title."
+  },
+  "assets": [
+    { "id": "msc_ml", "label": "MSc Computational Intelligence (Distinction)", "strength": 5, "note": "Neural networks, probabilistic models, optimisation. CNN dissertation. Faculty Student of the Year." },
+    { "id": "production_llm", "label": "Production LLM/agentic tooling in CI", "strength": 4, "note": "Agentic coding assistants and automated downstream impact analysis in GitLab CI at Dunelm. Currently under-positioned on CV." },
+    { "id": "data_platform", "label": "Data platform engineering", "strength": 5, "note": "Snowflake, dbt, AWS, Airflow, Terraform. Single Customer View with point-in-time correctness." },
+    { "id": "communication", "label": "Technical communication and teaching", "strength": 5, "note": "10 years teaching, Head of Computing, staff development. Professionally assessed skill." },
+    { "id": "leadership", "label": "Technical leadership", "strength": 4, "note": "Managed team of four at Nimbus; leads architectural initiatives at Dunelm." },
+    { "id": "breadth", "label": "Cross-context breadth", "strength": 4, "note": "Enterprise retail, scaling fintech, consumer startup." },
+    { "id": "career_change", "label": "Proven ability to retrain", "strength": 4, "note": "Teacher to data scientist via self-funded MSc, completed with Distinction." }
+  ],
+  "gaps": [
+    { "id": "evals", "label": "LLM evaluation methodology", "self_rated": null, "assessed": "significant", "priority": 1, "note": "Not self-identified but reported as the single strongest hiring signal for real LLM experience. Currently one word on the CV." },
+    { "id": "visibility", "label": "Public visibility and portfolio", "self_rated": null, "assessed": "significant", "priority": 2, "note": "No public writing or open-source presence. Disproportionately important for remote and US-remote roles." },
+    { "id": "positioning", "label": "CV and narrative positioning", "self_rated": null, "assessed": "significant", "priority": 3, "note": "Reads as a data engineer who has touched AI; evidence supports a stronger claim." },
+    { "id": "prod_ml", "label": "Production ML / MLOps", "self_rated": "weak", "assessed": "real", "priority": 4, "note": "Builds data foundations for models but has not owned a model in production: serving, monitoring, drift, retraining." },
+    { "id": "streaming", "label": "Streaming and real-time systems", "self_rated": "weak", "assessed": "real", "priority": 5, "note": "Partial coverage via Previse real-time banking ingestion. Kafka, CDC, exactly-once semantics not demonstrated at depth." },
+    { "id": "sysdesign_interview", "label": "System design interview performance", "self_rated": "weak", "assessed": "format_only", "priority": 6, "note": "Architecture ability is evidenced; the 45-minute whiteboard format is a separate, learnable performance skill." },
+    { "id": "swe_depth", "label": "Software engineering depth", "self_rated": "weak", "assessed": "likely_overstated", "priority": 7, "note": "Maintains production Python risk engine and builds CI tooling. Audit testing discipline and API design, but likely calibration rather than deficit." }
+  ],
+  "calibration_flag": {
+    "observed": "Selected all four offered weakness categories despite CV evidence contradicting at least two; accepted offers below market.",
+    "hypothesis": "Systematic self-underrating.",
+    "impact": "Directly costly at the negotiation stage. Worth more than any single technical module if confirmed.",
+    "status": "unconfirmed"
+  },
+  "constraints": [
+    "150-400 total study hours over the runway — supports one substantial project plus focused study, not three parallel tracks",
+    "3.5 years at current employer: narrative needs progression within the role, not just duration",
+    "Long career (from 1997) invites age bias in parts of the market; position on judgement and breadth rather than algorithm puzzles",
+    "Direction undecided — expensive if unresolved past roughly month two"
+  ],
+  "open_questions": [
+    "Where exactly did the recent offers land, and what reason was given?",
+    "Which parts of the Dunelm agentic CI work were owned end to end?",
+    "Is there appetite for an internal move into an ML platform role as a stepping stone?",
+    "Any hard constraints on travel for occasional on-site work?",
+    "What is the actual walk-away number, as opposed to the target?"
+  ]
+}
