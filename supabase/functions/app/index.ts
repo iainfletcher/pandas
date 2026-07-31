@@ -707,20 +707,28 @@ function Brief() {
       <section className="card p-4">
         <div className="chip inline-block bg-rose-400/10 text-rose-300 mb-2.5">The core finding</div>
         <p className="text-slate-300 text-sm leading-relaxed">
-          You are already getting offers. They come in below target. That is not a
-          capability problem, because a candidate who cannot get offers has one of
-          those. It is a <span className="text-white font-medium">pricing problem</span>.
+          You are on £88,250 base plus an 8-10% bonus. Call it £95-97k total.
+          So <span className="text-white font-medium">£100k was never the
+          target</span> — it is a 3-5% move, a pay review rather than a career
+          change. The working target is £125k.
         </p>
         <p className="text-slate-300 text-sm leading-relaxed mt-3">
-          Median UK data engineer pay is about £70k. Lead and principal roles top out
-          around £85-91k. You are on £70-85k, so you are already near the ceiling of
-          the band your job title addresses. £100k is not the middle of the range you
-          are climbing, it is above the top of it.
+          Limilinks is the tell. You asked £90-95k for a Lead Data Engineer role
+          while already earning about £95k all in — a lateral move at best, a cut
+          once the bonus is counted — and they still could not reach it. You were
+          not lowballed. You were fishing in a segment whose ceiling sits below
+          your current package.
         </p>
         <p className="text-slate-300 text-sm leading-relaxed mt-3">
-          Median advertised pay for a remote AI engineer is about £91k, with UK seniors
-          at £90-150k base. <span className="text-white font-medium">The gap between
-          those two distributions is the whole strategy.</span> Getting better at data
+          Median UK data engineer pay is about £70k and lead or principal tops out
+          around £85-91k. You are already above that band. There is no room left
+          in this job title, which is why the next move has to change the title
+          rather than the employer.
+        </p>
+        <p className="text-slate-300 text-sm leading-relaxed mt-3">
+          Median advertised pay for a remote AI engineer is about £91k, with UK
+          seniors at £90-150k base. <span className="text-white font-medium">That
+          is the distribution worth entering.</span> Getting better at data
           engineering cannot fix a band ceiling.
         </p>
       </section>
@@ -743,16 +751,22 @@ function Brief() {
       <section className="card p-4">
         <h2 className="font-semibold text-white mb-2.5">A calibration warning</h2>
         <p className="text-sm text-slate-400 leading-relaxed">
-          When asked, you selected every weakness on offer. Your CV contradicts at least
-          two of them. You lead architecture initiatives and taught complex material for
-          a decade, so system design and communication is not plausibly a weakness. What
-          may be weak is the artificial 45-minute whiteboard format, which is a different
-          and learnable thing.
+          Three data points, and they all point the same way. You selected every
+          weakness on offer, though your CV contradicts at least two of them. You
+          asked for £90-95k while already earning about £95k. And when asked your
+          current pay, you said £70-85k — a full band below the truth.
         </p>
         <p className="text-sm text-slate-400 leading-relaxed mt-3">
-          Strong CV, every weakness selected, offers below market accepted. If that
-          pattern is what it looks like, it is costing you more than any technical gap
-          on the list. Treat it as a hypothesis to test.
+          Under-reporting your own salary, unprompted, is the clearest signal of
+          the three. This is no longer a hypothesis to test. It is the most
+          expensive item on your gap list, and unlike the technical ones it costs
+          you money in a single conversation rather than over a year.
+        </p>
+        <p className="text-sm text-slate-400 leading-relaxed mt-3">
+          The rule that follows: <span className="text-white font-medium">write
+          the number down before the call, and never state it first.</span> If
+          pressed for current salary, give a target band instead. It is not a
+          question you are obliged to answer.
         </p>
       </section>
 

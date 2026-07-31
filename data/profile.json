@@ -1,7 +1,7 @@
 {
   "$comment": "Machine-readable learner profile. Consumed by the app for gap tracking and plan generation. Narrative version lives in docs/PROFILE.md.",
   "schema_version": 1,
-  "compiled_at": "2026-07-30",
+  "compiled_at": "2026-07-31",
   "learner": {
     "name": "Iain Fletcher",
     "location": "Coventry area, UK",
@@ -12,60 +12,166 @@
     "career_start": 1997
   },
   "goal": {
-    "target_comp_gbp": 100000,
-    "current_comp_band_gbp": [70000, 85000],
+    "target_comp_gbp": 125000,
+    "current_comp_band_gbp": [
+      95000,
+      97000
+    ],
     "work_mode": "remote",
     "market": "UK",
-    "timeline_months": [6, 12],
-    "weekly_hours": [5, 8],
-    "open_to": ["permanent_uk", "us_eu_remote", "contract_outside_ir35"],
-    "chosen_path": null,
-    "recommended_path": "ai_ml_engineer"
+    "timeline_months": [
+      6,
+      12
+    ],
+    "weekly_hours": [
+      5,
+      8
+    ],
+    "open_to": [
+      "permanent_uk",
+      "us_eu_remote",
+      "contract_outside_ir35"
+    ],
+    "chosen_path": "ai_ml_engineer",
+    "recommended_path": "ai_ml_engineer",
+    "current_comp_detail": "£88,250 base plus 8-10% bonus"
   },
   "diagnosis": {
-    "headline": "Receiving offers, but below target — a positioning and market-segment problem rather than a capability problem.",
+    "headline": "Already above the data engineering band. £100k was never a real target; the working target is £125k.",
     "evidence": [
-      "Recent interview loops produced offers below target rather than rejections",
-      "Median UK data engineer salary ~£70k; lead/principal ~£85-91k — current comp is already near the band ceiling",
-      "Median remote/hybrid AI engineer salary ~£91k; UK senior range £90-150k base"
+      "Current comp £88,250 base plus 8-10% bonus, roughly £95-97k total",
+      "Median UK data engineer ~£70k; lead/principal ~£85-91k — current package sits above that ceiling",
+      "Limilinks Lead Data Engineer process ended when a £90-95k ask could not be met: a lateral ask that the segment still could not reach",
+      "Median remote AI engineer ~£91k; UK seniors £90-150k base"
     ],
-    "implication": "Skill acquisition alone cannot close the gap. The constraint is the salary band of the target title."
+    "implication": "The constraint is the job title, not the employer and not the skill. Repositioning into AI/ML engineering, targeting £125k."
   },
   "assets": [
-    { "id": "msc_ml", "label": "MSc Computational Intelligence (Distinction)", "strength": 5, "note": "Neural networks, probabilistic models, optimisation. CNN dissertation. Faculty Student of the Year." },
-    { "id": "production_llm", "label": "Production LLM/agentic tooling in CI", "strength": 4, "note": "Agentic coding assistants and automated downstream impact analysis in GitLab CI at Dunelm. Currently under-positioned on CV." },
-    { "id": "data_platform", "label": "Data platform engineering", "strength": 5, "note": "Snowflake, dbt, AWS, Airflow, Terraform. Single Customer View with point-in-time correctness." },
-    { "id": "communication", "label": "Technical communication and teaching", "strength": 5, "note": "10 years teaching, Head of Computing, staff development. Professionally assessed skill." },
-    { "id": "leadership", "label": "Technical leadership", "strength": 4, "note": "Managed team of four at Nimbus; leads architectural initiatives at Dunelm." },
-    { "id": "breadth", "label": "Cross-context breadth", "strength": 4, "note": "Enterprise retail, scaling fintech, consumer startup." },
-    { "id": "career_change", "label": "Proven ability to retrain", "strength": 4, "note": "Teacher to data scientist via self-funded MSc, completed with Distinction." }
+    {
+      "id": "msc_ml",
+      "label": "MSc Computational Intelligence (Distinction)",
+      "strength": 5,
+      "note": "Neural networks, probabilistic models, optimisation. CNN dissertation. Faculty Student of the Year."
+    },
+    {
+      "id": "production_llm",
+      "label": "Production LLM/agentic tooling in CI",
+      "strength": 4,
+      "note": "Agentic coding assistants and automated downstream impact analysis in GitLab CI at Dunelm. Currently under-positioned on CV."
+    },
+    {
+      "id": "data_platform",
+      "label": "Data platform engineering",
+      "strength": 5,
+      "note": "Snowflake, dbt, AWS, Airflow, Terraform. Single Customer View with point-in-time correctness."
+    },
+    {
+      "id": "communication",
+      "label": "Technical communication and teaching",
+      "strength": 5,
+      "note": "10 years teaching, Head of Computing, staff development. Professionally assessed skill."
+    },
+    {
+      "id": "leadership",
+      "label": "Technical leadership",
+      "strength": 4,
+      "note": "Managed team of four at Nimbus; leads architectural initiatives at Dunelm."
+    },
+    {
+      "id": "breadth",
+      "label": "Cross-context breadth",
+      "strength": 4,
+      "note": "Enterprise retail, scaling fintech, consumer startup."
+    },
+    {
+      "id": "career_change",
+      "label": "Proven ability to retrain",
+      "strength": 4,
+      "note": "Teacher to data scientist via self-funded MSc, completed with Distinction."
+    }
   ],
   "gaps": [
-    { "id": "evals", "label": "LLM evaluation methodology", "self_rated": null, "assessed": "significant", "priority": 1, "note": "Not self-identified but reported as the single strongest hiring signal for real LLM experience. Currently one word on the CV." },
-    { "id": "visibility", "label": "Public visibility and portfolio", "self_rated": null, "assessed": "significant", "priority": 2, "note": "No public writing or open-source presence. Disproportionately important for remote and US-remote roles." },
-    { "id": "positioning", "label": "CV and narrative positioning", "self_rated": null, "assessed": "significant", "priority": 3, "note": "Reads as a data engineer who has touched AI; evidence supports a stronger claim." },
-    { "id": "prod_ml", "label": "Production ML / MLOps", "self_rated": "weak", "assessed": "real", "priority": 4, "note": "Builds data foundations for models but has not owned a model in production: serving, monitoring, drift, retraining." },
-    { "id": "streaming", "label": "Streaming and real-time systems", "self_rated": "weak", "assessed": "real", "priority": 5, "note": "Partial coverage via Previse real-time banking ingestion. Kafka, CDC, exactly-once semantics not demonstrated at depth." },
-    { "id": "sysdesign_interview", "label": "System design interview performance", "self_rated": "weak", "assessed": "format_only", "priority": 6, "note": "Architecture ability is evidenced; the 45-minute whiteboard format is a separate, learnable performance skill." },
-    { "id": "swe_depth", "label": "Software engineering depth", "self_rated": "weak", "assessed": "likely_overstated", "priority": 7, "note": "Maintains production Python risk engine and builds CI tooling. Audit testing discipline and API design, but likely calibration rather than deficit." }
+    {
+      "id": "self_valuation",
+      "label": "Self-valuation and negotiation",
+      "self_rated": null,
+      "assessed": "confirmed",
+      "priority": 1,
+      "note": "Selected every offered weakness; asked £90-95k while earning ~£95k; under-reported own salary by a full band. The most expensive gap, and the fastest to fix."
+    },
+    {
+      "id": "evals",
+      "label": "LLM evaluation methodology",
+      "self_rated": null,
+      "assessed": "significant",
+      "priority": 2,
+      "note": "Strongest single hiring signal for real LLM experience. Currently one word on the CV. Top technical gap."
+    },
+    {
+      "id": "visibility",
+      "label": "Public visibility and portfolio",
+      "self_rated": null,
+      "assessed": "significant",
+      "priority": 3,
+      "note": "No public writing or open-source presence. Disproportionately important for remote and US-remote roles."
+    },
+    {
+      "id": "positioning",
+      "label": "CV and narrative positioning",
+      "self_rated": null,
+      "assessed": "significant",
+      "priority": 4,
+      "note": "Reads as a data engineer who has touched AI; the evidence supports a stronger claim."
+    },
+    {
+      "id": "prod_ml",
+      "label": "Production ML / MLOps",
+      "self_rated": "weak",
+      "assessed": "real",
+      "priority": 5,
+      "note": "Builds data foundations for models but has not owned a model in production: serving, monitoring, drift, retraining."
+    },
+    {
+      "id": "streaming",
+      "label": "Streaming and real-time systems",
+      "self_rated": "weak",
+      "assessed": "real",
+      "priority": 6,
+      "note": "Partial coverage via Previse real-time banking ingestion. Kafka, CDC, exactly-once semantics not demonstrated at depth."
+    },
+    {
+      "id": "sysdesign",
+      "label": "System design interview performance",
+      "self_rated": "weak",
+      "assessed": "format_only",
+      "priority": 7,
+      "note": "Architecture ability is evidenced; the 45-minute whiteboard format is a separate, learnable performance skill."
+    },
+    {
+      "id": "swe_depth",
+      "label": "Software engineering depth",
+      "self_rated": "weak",
+      "assessed": "likely_overstated",
+      "priority": 8,
+      "note": "Maintains a production Python risk engine and builds CI tooling. Likely calibration rather than deficit."
+    }
   ],
   "calibration_flag": {
-    "observed": "Selected all four offered weakness categories despite CV evidence contradicting at least two; accepted offers below market.",
-    "hypothesis": "Systematic self-underrating.",
-    "impact": "Directly costly at the negotiation stage. Worth more than any single technical module if confirmed.",
-    "status": "unconfirmed"
+    "observed": "Selected every offered weakness despite contrary CV evidence; asked £90-95k while earning ~£95k; reported current pay as £70-85k when it is £88,250 plus bonus.",
+    "hypothesis": "Systematic self-undervaluation.",
+    "impact": "Now the top-priority gap. Costs money in a single conversation rather than over a year.",
+    "status": "confirmed"
   },
   "constraints": [
     "150-400 total study hours over the runway — supports one substantial project plus focused study, not three parallel tracks",
     "3.5 years at current employer: narrative needs progression within the role, not just duration",
     "Long career (from 1997) invites age bias in parts of the market; position on judgement and breadth rather than algorithm puzzles",
-    "Direction undecided — expensive if unresolved past roughly month two"
+    "Leaving a known 8-10% bonus means a base-only offer must clear roughly £105k just to break even"
   ],
   "open_questions": [
-    "Where exactly did the recent offers land, and what reason was given?",
     "Which parts of the Dunelm agentic CI work were owned end to end?",
     "Is there appetite for an internal move into an ML platform role as a stepping stone?",
     "Any hard constraints on travel for occasional on-site work?",
-    "What is the actual walk-away number, as opposed to the target?"
+    "What is the actual walk-away number? Nothing below ~£105k base breaks even on total comp."
   ]
 }

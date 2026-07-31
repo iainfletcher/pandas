@@ -1,8 +1,8 @@
 # levelup
 
-A personal learning platform for one goal: Senior Data Engineer (£70–85k) to a
-£100k+ remote AI/ML engineering role in the UK, within 12 months, on 5–8 hours a
-week.
+A personal learning platform for one goal: Senior Data Engineer (~£95k total) to
+a £125k+ remote AI/ML engineering role in the UK, within 12 months, on 5–8 hours
+a week.
 
 **Live:** https://iainfletcher.github.io/pandas/ *(after enabling Pages — see below)*
 
@@ -22,12 +22,15 @@ screen and it behaves like an app.
 
 ## The strategy in one paragraph
 
-Recent interviews produced offers *below target*, not rejections. Median UK data
-engineer pay is ~£70k and lead/principal tops out ~£85–91k, so £70–85k is already
-near the ceiling of that job title — £100k sits above the top of the band, not in
-the middle of it. Median advertised pay for a remote AI engineer is ~£91k with UK
-seniors at £90–150k. The constraint is the band, not the skill, so the plan is a
-repositioning rather than a retraining. Full reasoning in
+Current comp is £88,250 base plus an 8–10% bonus, roughly £95–97k total — which
+means £100k was never a real target, just a 3–5% move. Median UK data engineer
+pay is ~£70k and lead/principal tops out ~£85–91k, so that package is already
+*above* the ceiling of the job title. The one recent process died when a £90–95k
+ask could not be met for a Lead Data Engineer role: not a lowball, but evidence
+that segment pays less than the current package. Median advertised pay for a
+remote AI engineer is ~£91k with UK seniors at £90–150k, so the target is £125k
+and the move has to change the job title rather than the employer. Full reasoning
+in
 [`docs/career-paths.md`](docs/career-paths.md); the baseline profile is in
 [`docs/PROFILE.md`](docs/PROFILE.md).
 
