@@ -824,7 +824,10 @@ const CATEGORIES = [
   { key: "theory", label: "ML theory" },
   { key: "agents", label: "Agents" },
   { key: "production", label: "Production ML" },
-  { key: "stats", label: "Stats" }
+  { key: "stats", label: "Stats" },
+  { key: "dsa", label: "DS&A" },
+  { key: "sysdesign_ml", label: "Design" },
+  { key: "behavioural", label: "Behavioural" }
 ];
 
 function ConceptBody({ c }) {
