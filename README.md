@@ -51,9 +51,9 @@ one word.
 
 ## Architecture
 
-- **Frontend** — [`index.html`](index.html): React, Tailwind and the Supabase
-  client loaded from CDNs, with the whole app in one in-browser-compiled script.
-  No build step, no bundler, one file.
+- **Frontend** — [`index.html`](index.html): one self-contained file. React,
+  Tailwind and the Supabase client come from pinned CDNs; the app itself is
+  plain JS, compiled ahead of time from JSX by [`build.js`](build.js).
 - **Hosting** — GitHub Pages, serving this branch.
 - **Data** — Supabase Postgres. Row-level security on every table keyed on
   `auth.uid()`; Supabase Auth for sign-in.
@@ -87,8 +87,9 @@ starting point if this ever moves to proper hosting.
 - **No live AI tutor.** That needs an LLM API key held server-side, which the
   authoring environment could not set. The Ask tab parks questions instead;
   answers get added to the concept bank out of band.
-- **Deploys are manual.** Updating the app means editing
-  `supabase/functions/app/index.ts`, re-extracting `index.html` and pushing.
+- **Deploys are manual.** Edit the JSX in `supabase/functions/app/index.ts`, run
+  `NODE_PATH=<dir with @babel/standalone> node build.js` to regenerate
+  `index.html`, then commit and push. Pages picks it up automatically.
 - **Two hosts were tried and rejected.** Vercel reported successful deployments
   that never persisted; Supabase Edge Functions could not serve HTML as HTML.
 
