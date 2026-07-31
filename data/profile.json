@@ -41,7 +41,7 @@
     "evidence": [
       "Current comp £88,250 base plus 8-10% bonus, roughly £95-97k total",
       "Median UK data engineer ~£70k; lead/principal ~£85-91k — current package sits above that ceiling",
-      "Lumilinks Lead Data Engineer process ended when a £90-95k ask could not be met: a lateral ask that the segment still could not reach",
+      "Lumilinks withdrew on budget before any technical round: a Lead Data Engineer role unable to reach £90-95k sits below current package",
       "Median remote AI engineer ~£91k; UK seniors £90-150k base"
     ],
     "implication": "The constraint is the job title, not the employer and not the skill. Repositioning into AI/ML engineering, targeting £120k."
@@ -88,6 +88,12 @@
       "label": "Proven ability to retrain",
       "strength": 4,
       "note": "Teacher to data scientist via self-funded MSc, completed with Distinction."
+    },
+    {
+      "id": "interview_record",
+      "label": "Proven interview track record",
+      "strength": 4,
+      "note": "Two offers in 2023 including Dunelm. Interviews well at this level. Only weak spot is timed algorithmic rounds."
     }
   ],
   "gaps": [
@@ -97,7 +103,7 @@
       "self_rated": null,
       "assessed": "confirmed",
       "priority": 1,
-      "note": "Selected every offered weakness; asked £90-95k while earning ~£95k; under-reported own salary by a full band. The most expensive gap, and the fastest to fix."
+      "note": "One clean data point: reported pay as £70-85k when it is £88,250 plus bonus. The £90-95k Lumilinks ask is ambiguous (treated as practice). Track record is strong, so this is about pricing, not ability."
     },
     {
       "id": "evals",
@@ -141,11 +147,11 @@
     },
     {
       "id": "sysdesign",
-      "label": "System design interview performance",
+      "label": "Algorithmic / LeetCode rounds",
       "self_rated": "weak",
-      "assessed": "format_only",
+      "assessed": "specific",
       "priority": 7,
-      "note": "Architecture ability is evidenced; the 45-minute whiteboard format is a separate, learnable performance skill."
+      "note": "General interview performance is a strength: two offers in 2023, comfortable at this level. The narrow weakness is timed algorithmic puzzles - and the best-paying segment (US companies hiring UK-remote) is the most likely to run them."
     },
     {
       "id": "swe_depth",
@@ -157,9 +163,9 @@
     }
   ],
   "calibration_flag": {
-    "observed": "Selected every offered weakness despite contrary CV evidence; asked £90-95k while earning ~£95k; reported current pay as £70-85k when it is £88,250 plus bonus.",
-    "hypothesis": "Systematic self-undervaluation.",
-    "impact": "Now the top-priority gap. Costs money in a single conversation rather than over a year.",
+    "observed": "Reported current pay as £70-85k when it is £88,250 plus bonus. Selected every offered weakness despite contrary CV evidence.",
+    "hypothesis": "Systematic self-undervaluation in pricing, not in capability.",
+    "impact": "Top-priority gap. Costs money in one conversation rather than over a year.",
     "status": "confirmed"
   },
   "constraints": [

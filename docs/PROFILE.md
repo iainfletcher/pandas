@@ -17,6 +17,15 @@ flattering — revise it as evidence changes.*
 > `docs/career-paths.md` for the band comparison and the app's Brief tab for the
 > current version.
 
+> **Second correction, 31 July 2026.** Section 2 is wrong about interviews.
+> There were no "offers below target". The 2023 round produced **two offers at
+> £80k, including Dunelm**, and interviews at this level generally go well.
+> Lumilinks never reached a technical round — an unsolicited recruiter approach
+> that withdrew on budget. The only consistent interview weakness is **timed
+> algorithmic rounds**. This removes interview performance as a headline gap and
+> leaves the finding cleaner: a pricing and targeting problem, with a track
+> record that supports the move.
+
 ## 1. Snapshot
 
 | | |

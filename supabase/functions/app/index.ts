@@ -713,11 +713,11 @@ function Brief() {
           change. The working target is £120k.
         </p>
         <p className="text-slate-300 text-sm leading-relaxed mt-3">
-          Lumilinks is the tell. You asked £90-95k for a Lead Data Engineer role
-          while already earning about £95k all in — a lateral move at best, a cut
-          once the bonus is counted — and they still could not reach it. You were
-          not lowballed. You were fishing in a segment whose ceiling sits below
-          your current package.
+          Lumilinks is the tell, though not about you. A recruiter approach for a
+          Lead Data Engineer role that withdrew on budget before any technical
+          round, because it could not reach £90-95k. A lead role unable to pay
+          £95k sits below your current package. That is information about the
+          segment, not about your capability.
         </p>
         <p className="text-slate-300 text-sm leading-relaxed mt-3">
           Median UK data engineer pay is about £70k and lead or principal tops out
@@ -751,16 +751,16 @@ function Brief() {
       <section className="card p-4">
         <h2 className="font-semibold text-white mb-2.5">A calibration warning</h2>
         <p className="text-sm text-slate-400 leading-relaxed">
-          Three data points, and they all point the same way. You selected every
-          weakness on offer, though your CV contradicts at least two of them. You
-          asked for £90-95k while already earning about £95k. And when asked your
-          current pay, you said £70-85k — a full band below the truth.
+          Your interview record is good — two offers in 2023, and you are comfortable
+          at this level. This is not about ability. The clean data point is
+          narrower: asked your current pay, you said £70-85k when it is £88,250
+          plus bonus. A full band below the truth, unprompted.
         </p>
         <p className="text-sm text-slate-400 leading-relaxed mt-3">
-          Under-reporting your own salary, unprompted, is the clearest signal of
-          the three. This is no longer a hypothesis to test. It is the most
-          expensive item on your gap list, and unlike the technical ones it costs
-          you money in a single conversation rather than over a year.
+          The Lumilinks ask is ambiguous — you were treating it as practice rather
+          than a real move, so discount it. What remains is a pricing habit, not
+          a performance problem. It stays top of the list because it costs you
+          money in a single conversation rather than over a year.
         </p>
         <p className="text-sm text-slate-400 leading-relaxed mt-3">
           The rule that follows: <span className="text-white font-medium">write
