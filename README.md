@@ -4,7 +4,7 @@ A personal learning platform for one goal: Senior Data Engineer (£70–85k) to 
 £100k+ remote AI/ML engineering role in the UK, within 12 months, on 5–8 hours a
 week.
 
-**Live:** https://lhobanahrkcyrsotgriu.supabase.co/functions/v1/app
+**Live:** https://iainfletcher.github.io/pandas/ *(after enabling Pages — see below)*
 
 ## What it is
 
@@ -51,12 +51,28 @@ one word.
 
 ## Architecture
 
-- **Frontend** — React served as one self-contained page from a Supabase Edge
-  Function. No build step and no separate host, which is why the whole thing
-  lives at one URL.
+- **Frontend** — [`index.html`](index.html): React, Tailwind and the Supabase
+  client loaded from CDNs, with the whole app in one in-browser-compiled script.
+  No build step, no bundler, one file.
+- **Hosting** — GitHub Pages, serving this branch.
 - **Data** — Supabase Postgres. Row-level security on every table keyed on
   `auth.uid()`; Supabase Auth for sign-in.
-- **Source of truth for the page** — [`supabase/functions/app/index.ts`](supabase/functions/app/index.ts)
+
+### Enabling Pages
+
+Settings → Pages → Source: *Deploy from a branch* → branch
+`claude/new-project-setup-tqvcw7`, folder `/ (root)` → Save. The site appears at
+the URL above within a minute or two.
+
+### Why not Supabase Edge Functions
+
+The page was originally served from an edge function
+([`supabase/functions/app/index.ts`](supabase/functions/app/index.ts), kept as the
+source of truth the HTML is generated from). Supabase's gateway overrides the
+response `Content-Type` to `text/plain` regardless of what the function sets, so
+browsers displayed the markup as source rather than rendering it. Confirmed with
+a minimal twenty-line probe function, which failed the same way. Not fixable from
+inside the function.
 
 The publishable key is embedded in the page on purpose: it is designed to ship to
 browsers, and RLS plus the sign-in screen are what actually protect the data.
@@ -71,9 +87,10 @@ starting point if this ever moves to proper hosting.
 - **No live AI tutor.** That needs an LLM API key held server-side, which the
   authoring environment could not set. The Ask tab parks questions instead;
   answers get added to the concept bank out of band.
-- **Deploys are manual.** Updating the app means redeploying the edge function.
-- **Vercel hosting failed.** The integration reported successful deployments that
-  never persisted, so Supabase serves the page instead.
+- **Deploys are manual.** Updating the app means editing
+  `supabase/functions/app/index.ts`, re-extracting `index.html` and pushing.
+- **Two hosts were tried and rejected.** Vercel reported successful deployments
+  that never persisted; Supabase Edge Functions could not serve HTML as HTML.
 
 ## Repository note
 
