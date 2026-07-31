@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-ink-900 text-slate-200 font-sans antialiased;
+    overscroll-behavior-y: none;
+  }
+  /* Keep iOS from zooming on focus */
+  input, textarea, select {
+    font-size: 16px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-ink-800 border border-white/5 rounded-2xl;
+  }
+  .field {
+    @apply w-full bg-ink-700 border border-white/5 rounded-xl px-3 py-2.5
+           text-slate-100 placeholder:text-slate-500
+           focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent;
+  }
+  .btn {
+    @apply rounded-xl px-4 py-2.5 font-medium transition active:scale-[0.98] disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-ink-900 hover:bg-accent-soft;
+  }
+  .btn-ghost {
+    @apply btn bg-ink-700 text-slate-200 hover:bg-ink-600;
+  }
+  .chip {
+    @apply text-[11px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-md;
+  }
+}
+
+.safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem); }
+.safe-top { padding-top: env(safe-area-inset-top); }

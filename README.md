@@ -1,59 +1,82 @@
 # levelup
 
-A personal learning platform for a specific goal: moving from Senior Data
-Engineer (£70–85k) to a £100k+ remote role in the UK, within 6–12 months, on a
-budget of 5–8 hours a week.
+A personal learning platform for one goal: Senior Data Engineer (£70–85k) to a
+£100k+ remote AI/ML engineering role in the UK, within 12 months, on 5–8 hours a
+week.
 
-Not a generic study app. It plans against one profile, tracks one set of gaps,
-and is opinionated about what to do next.
+**Live:** https://lhobanahrkcyrsotgriu.supabase.co/functions/v1/app
 
-## Status
+## What it is
 
-Profile and strategy complete. Application build is next.
+A phone-first web app. Sign in once and it stays signed in; add it to your home
+screen and it behaves like an app.
 
-| Piece | State |
+| Tab | What it does |
 |---|---|
-| [`docs/PROFILE.md`](docs/PROFILE.md) | Done — baseline profile, assets, gaps, diagnosis |
-| [`docs/career-paths.md`](docs/career-paths.md) | Done — path comparison and recommendation |
-| [`data/profile.json`](data/profile.json) | Done — machine-readable profile the app reads |
-| Curriculum | Not started — blocked on path decision |
-| Web app | Not started |
+| **Today** | Runway countdown, hours logged this week, the next three actions, quick time logging |
+| **Learn** | 63 concepts covering the vocabulary and theory of AI/ML engineering. Drill mode, browse by category, and a place to park questions |
+| **Plan** | Four phases, 21 tasks, each with a stated reason it exists |
+| **Jobs** | The weeks 1–4 evidence exercise: log 20 real £100k+ UK-remote adverts and score yourself honestly against them |
+| **Evidence** | What you shipped, wrote, learned and interviewed for — raw material for CV bullets |
+| **Brief** | The strategy, the calibration warning, direction, walk-away number, and the gap scores |
 
-## Start here
+## The strategy in one paragraph
 
-Read [`docs/PROFILE.md`](docs/PROFILE.md) first, then
-[`docs/career-paths.md`](docs/career-paths.md). The second one asks you to make
-a decision; the rest of the project is blocked on it.
+Recent interviews produced offers *below target*, not rejections. Median UK data
+engineer pay is ~£70k and lead/principal tops out ~£85–91k, so £70–85k is already
+near the ceiling of that job title — £100k sits above the top of the band, not in
+the middle of it. Median advertised pay for a remote AI engineer is ~£91k with UK
+seniors at £90–150k. The constraint is the band, not the skill, so the plan is a
+repositioning rather than a retraining. Full reasoning in
+[`docs/career-paths.md`](docs/career-paths.md); the baseline profile is in
+[`docs/PROFILE.md`](docs/PROFILE.md).
 
-## What the app will be
+## The Learn tab
 
-A dashboard, self-hosted, that answers "what should I do with this week's five
-hours?" and shows whether the plan is working.
+The stated problem was gaps in terminology and theory that someone from a top
+university or a big tech company would have absorbed by osmosis — knowing how to
+do the thing but not the word for it. Each concept carries three parts:
 
-Planned surfaces:
+- **one-liner** — the crisp definition, the sentence you would actually say
+- **detail** — the intuition and the thing people get wrong
+- **in the room** — how it shows up in an interview and what signals depth
 
-- **Dashboard** — runway remaining, hours logged, gap-closure progress, next action.
-- **Skill graph** — gaps from `profile.json` scored over time against evidence, not vibes.
-- **Curriculum** — the learning path for the chosen direction, broken into sessions that fit the real weekly budget.
-- **Project tracker** — milestones for the portfolio build.
-- **Interview drills** — spaced repetition over system design prompts and role-specific questions, given that offers are already landing and the final stage is the high-leverage one.
-- **Evidence log** — what you shipped, wrote and learned, feeding CV and interview material directly.
+Drill mode surfaces whatever you have rated lowest or seen least, prompts you to
+say it out loud before revealing, then takes an honest self-rating. Categories:
+evaluation, retrieval/RAG, LLM internals, ML theory, agents, production ML, stats.
 
-## Intended architecture
+Evaluation is deliberately first and largest. It is reported as the strongest
+single signal of genuine LLM experience, and it currently appears on the CV as
+one word.
 
-FastAPI plus Postgres on the backend, React on the front. Python because it is
-the working language of the target roles, and because the application is meant
-to double as the portfolio project — the tutor and drill-generation features are
-a genuine RAG-and-evaluation system, which is precisely the gap the profile
-identifies as highest priority.
+## Architecture
 
-That is the design bet worth stating plainly: **building this tool is itself the
-most efficient way to close the top-priority gap.** It is not overhead taken
-away from studying.
+- **Frontend** — React served as one self-contained page from a Supabase Edge
+  Function. No build step and no separate host, which is why the whole thing
+  lives at one URL.
+- **Data** — Supabase Postgres. Row-level security on every table keyed on
+  `auth.uid()`; Supabase Auth for sign-in.
+- **Source of truth for the page** — [`supabase/functions/app/index.ts`](supabase/functions/app/index.ts)
+
+The publishable key is embedded in the page on purpose: it is designed to ship to
+browsers, and RLS plus the sign-in screen are what actually protect the data.
+`verify_jwt` is off on the function because it serves a public HTML shell
+containing no secrets.
+
+`app/` holds an earlier Vite build of the same UI, kept because it is the better
+starting point if this ever moves to proper hosting.
+
+## Known limitations
+
+- **No live AI tutor.** That needs an LLM API key held server-side, which the
+  authoring environment could not set. The Ask tab parks questions instead;
+  answers get added to the concept bank out of band.
+- **Deploys are manual.** Updating the app means redeploying the edge function.
+- **Vercel hosting failed.** The integration reported successful deployments that
+  never persisted, so Supabase serves the page instead.
 
 ## Repository note
 
-This currently lives on a branch of an old `pandas` fork because the GitHub
-integration in the authoring session lacked permission to create new
-repositories. The history is clean and unrelated to `pandas`, so moving it to a
-fresh repository is a copy-and-push. See the session notes for the commands.
+This lives on a branch of an old `pandas` fork because the GitHub integration
+lacked permission to create new repositories. The history is clean and unrelated
+to `pandas`, so moving it to a fresh repository is a clone-and-push.
