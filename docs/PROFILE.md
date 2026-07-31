@@ -9,11 +9,11 @@ flattering — revise it as evidence changes.*
 > **Correction, 31 July 2026.** Two figures in this document are superseded.
 > Actual comp is **£88,250 base plus an 8–10% bonus (~£95–97k total)**, not the
 > £70–85k recorded below. And the "offers below target" in section 2 was one
-> process — Limilinks, Lead Data Engineer — that ended when a **£90–95k ask
+> process — Lumilinks, Lead Data Engineer — that ended when a **£90–95k ask
 > could not be met**, which is a lateral ask against current pay rather than a
 > lowball. Both corrections *strengthen* the core finding: the current package
 > already sits above the lead/principal data engineering ceiling, so £100k was
-> never a real target. The working target is now **£125k**. See
+> never a real target. The working target is now **£120k**. See
 > `docs/career-paths.md` for the band comparison and the app's Brief tab for the
 > current version.
 
@@ -24,7 +24,7 @@ flattering — revise it as evidence changes.*
 | **Current role** | Senior Data Engineer, Dunelm (Dec 2022 – present) |
 | **Location** | Coventry area, UK |
 | **Current comp** | £88,250 base + 8–10% bonus (~£95–97k total) |
-| **Target** | £125k+, remote, UK-based |
+| **Target** | £120k+, remote, UK-based |
 | **Timeline** | 6–12 months |
 | **Study capacity** | 5–8 hours/week |
 | **Target role** | AI/ML engineer (committed) |

@@ -12,7 +12,7 @@
     "career_start": 1997
   },
   "goal": {
-    "target_comp_gbp": 125000,
+    "target_comp_gbp": 120000,
     "current_comp_band_gbp": [
       95000,
       97000
@@ -37,14 +37,14 @@
     "current_comp_detail": "£88,250 base plus 8-10% bonus"
   },
   "diagnosis": {
-    "headline": "Already above the data engineering band. £100k was never a real target; the working target is £125k.",
+    "headline": "Already above the data engineering band. £100k was never a real target; the working target is £120k.",
     "evidence": [
       "Current comp £88,250 base plus 8-10% bonus, roughly £95-97k total",
       "Median UK data engineer ~£70k; lead/principal ~£85-91k — current package sits above that ceiling",
-      "Limilinks Lead Data Engineer process ended when a £90-95k ask could not be met: a lateral ask that the segment still could not reach",
+      "Lumilinks Lead Data Engineer process ended when a £90-95k ask could not be met: a lateral ask that the segment still could not reach",
       "Median remote AI engineer ~£91k; UK seniors £90-150k base"
     ],
-    "implication": "The constraint is the job title, not the employer and not the skill. Repositioning into AI/ML engineering, targeting £125k."
+    "implication": "The constraint is the job title, not the employer and not the skill. Repositioning into AI/ML engineering, targeting £120k."
   },
   "assets": [
     {

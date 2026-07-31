@@ -1,7 +1,7 @@
 # levelup
 
 A personal learning platform for one goal: Senior Data Engineer (~£95k total) to
-a £125k+ remote AI/ML engineering role in the UK, within 12 months, on 5–8 hours
+a £120k+ remote AI/ML engineering role in the UK, within 12 months, on 5–8 hours
 a week.
 
 **Live:** https://iainfletcher.github.io/pandas/ *(after enabling Pages — see below)*
@@ -28,7 +28,7 @@ pay is ~£70k and lead/principal tops out ~£85–91k, so that package is alread
 *above* the ceiling of the job title. The one recent process died when a £90–95k
 ask could not be met for a Lead Data Engineer role: not a lowball, but evidence
 that segment pays less than the current package. Median advertised pay for a
-remote AI engineer is ~£91k with UK seniors at £90–150k, so the target is £125k
+remote AI engineer is ~£91k with UK seniors at £90–150k, so the target is £120k
 and the move has to change the job title rather than the employer. Full reasoning
 in
 [`docs/career-paths.md`](docs/career-paths.md); the baseline profile is in

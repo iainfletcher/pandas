@@ -114,7 +114,7 @@ function Login() {
       <form onSubmit={submit} className="w-full max-w-sm space-y-4">
         <div className="mb-8">
           <div className="text-accent text-3xl font-semibold">levelup</div>
-          <p className="text-slate-400 text-sm mt-1.5">Senior Data Engineer to £100k+ remote.</p>
+          <p className="text-slate-400 text-sm mt-1.5">Senior Data Engineer to £120k+ remote.</p>
         </div>
         <input className="field" type="email" autoComplete="username" placeholder="Email"
                value={email} onChange={e => setEmail(e.target.value)} required />
@@ -710,10 +710,10 @@ function Brief() {
           You are on £88,250 base plus an 8-10% bonus. Call it £95-97k total.
           So <span className="text-white font-medium">£100k was never the
           target</span> — it is a 3-5% move, a pay review rather than a career
-          change. The working target is £125k.
+          change. The working target is £120k.
         </p>
         <p className="text-slate-300 text-sm leading-relaxed mt-3">
-          Limilinks is the tell. You asked £90-95k for a Lead Data Engineer role
+          Lumilinks is the tell. You asked £90-95k for a Lead Data Engineer role
           while already earning about £95k all in — a lateral move at best, a cut
           once the bonus is counted — and they still could not reach it. You were
           not lowballed. You were fishing in a segment whose ceiling sits below
