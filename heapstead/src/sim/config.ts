@@ -45,18 +45,18 @@ export const SIM = {
   },
 
   digger: {
-    moveSpeed: 0.11,
+    moveSpeed: 0.16,
     /** Ticks spent rocking against the work face before the block comes out (§11.4). */
-    digTicks: 14,
+    digTicks: 10,
     /** Ticks spent handing the block over. */
-    dropTicks: 7,
+    dropTicks: 6,
     /** How close to a waypoint counts as arrived. */
     arriveEpsilon: 0.08,
   },
 
   chute: {
     /** Fraction of the chute's run travelled per tick. */
-    speed: 0.055,
+    speed: 0.075,
     /** Maximum blocks in the run at once; a full chute makes the digger wait. */
     capacity: 5,
     /** Minimum separation along the run, as a fraction, so blocks don't merge. */
@@ -64,10 +64,10 @@ export const SIM = {
   },
 
   barrow: {
-    moveSpeed: 0.13,
+    moveSpeed: 0.18,
     /** Loaded barrows are slower — the bob reads better and it looks like effort. */
     loadedSpeedFactor: 0.82,
-    loadTicks: 9,
+    loadTicks: 7,
     /** The tip is the delivery animation; the block leaves at tipReleaseAt (§11.3). */
     tipTicks: 12,
     /** Fraction through the tip at which the block actually leaves the barrow. */
@@ -77,9 +77,9 @@ export const SIM = {
 
   crane: {
     /** Horizontal hook travel, cells per tick. Slow — the pendulum needs time (§11.1). */
-    swingSpeed: 0.11,
+    swingSpeed: 0.14,
     /** Vertical hook travel, cells per tick. */
-    hoistSpeed: 0.13,
+    hoistSpeed: 0.17,
     grabTicks: 8,
     releaseTicks: 6,
     /** Height the hook returns to between jobs. */
