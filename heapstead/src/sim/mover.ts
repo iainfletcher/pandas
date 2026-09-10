@@ -66,6 +66,18 @@ export interface MoverSnapshot {
    */
   readonly velocity: Vec3;
   readonly carried: readonly CarriedBlock[];
+  /**
+   * Named articulation points, in cell units — a crane's `hook`, a digger's
+   * `bucket`, a barrow's `tray`. Generic rather than a per-kind interface so
+   * that adding a mover stays a one-file job (SPEC §12.2), and pure data so
+   * the renderer can interpolate them like any other position.
+   */
+  readonly parts: Readonly<Record<string, Vec3>>;
+  /**
+   * A static structural polyline, for movers that are shaped like a run rather
+   * than a point — the chute's descent. Absent for movers that are not.
+   */
+  readonly path?: readonly Vec3[] | undefined;
 }
 
 export interface Mover {
