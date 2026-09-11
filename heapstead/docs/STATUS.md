@@ -1,6 +1,6 @@
 # Status
 
-**As of:** 2026-09-10, end of session 1
+**As of:** 2026-09-11, end of session 2 (art pass)
 **Milestone:** M0 (the diorama) — complete
 **Next:** M1 (jobs) — **not started, and deliberately so.** M0 was the agreed
 scope for this session.
@@ -41,9 +41,28 @@ mid-transfer, destination full, source already emptied. Determinism is tested
 against SPEC §8 (same seed → identical state; stepping order irrelevant; no
 wall-clock dependence).
 
+### Looks
+
+Session 2 was an art pass over the same simulation — no sim behaviour changed
+beyond the terrain the diorama builds:
+
+- linear-light vertex colours (the old ones were sRGB bytes, hence muddy),
+  per-block mottling, and a warm muted palette with real value separation;
+- a shadow-casting key light, hemisphere ambience, ACES tone mapping and a
+  three-stop gradient sky dome;
+- the island's underside carved into a keel, so it reads as a diorama on a
+  plinth rather than a rectangle sawn out of a larger world;
+- rolling ground, trees, shrubs, boulders, dry patches and worn earth paths
+  where the machines work — all deterministic, all kept clear of the corridor
+  the movers actually walk;
+- spoil piles mixed from several materials, banded by noise;
+- proper machine models: a tracked excavator with a two-part arm, a
+  wheelbarrow with a tub and handles, a lattice tower crane with cab and
+  counterweight, and a timber chute with braces.
+
 ### What screenshot review caught
 
-Three real bugs, all invisible to the tests:
+Three real bugs in session 1, all invisible to the tests:
 
 1. **The chute rendered as disconnected slivers.** Its trough was built from a
    left-handed basis, so `Matrix4.makeBasis` produced a reflection, and the
@@ -53,7 +72,18 @@ Three real bugs, all invisible to the tests:
    used absolute counts that exceeded pile capacity at lane-width 3, so the
    destinations began full. Now a fraction of capacity.
 3. **The one-lane diorama was marooned in empty grass**, being as deep as the
-   20-lane world. Compacted from 68×40 to 62×14.
+   20-lane world. Compacted, then widened again to 62×30×26 once there was
+   scenery to fill the margins.
+
+And three more in session 2:
+
+4. **`lane.z1` did not exist**, so the "keep the corridor flat" test compared
+   against `undefined`, silently returned false, and grew hills straight
+   through the strip the movers walk.
+5. **Pile pre-seeding ran before planting**, converting the grass trees need to
+   root in — twenty trees became one.
+6. **Vertex colours were sRGB bytes in a linear buffer**, which reads as bad
+   colour choices rather than as the colour-space bug it was.
 
 ## What I cannot tell you
 

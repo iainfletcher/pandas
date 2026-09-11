@@ -1,4 +1,4 @@
-import { BoxGeometry, Mesh, MeshLambertMaterial, Group, type Material } from 'three';
+import { BoxGeometry, Mesh, MeshLambertMaterial, Group, Color, SRGBColorSpace, type Material } from 'three';
 import { BlockType } from '../sim/blocks.ts';
 import { swatchFor } from './palette.ts';
 import { RENDER } from './renderConfig.ts';
@@ -20,14 +20,15 @@ export const blockMaterial = (type: BlockType): Material => {
   const existing = materials.get(type);
   if (existing !== undefined) return existing;
   const swatch = swatchFor(type);
-  const material = new MeshLambertMaterial({ color: swatch.side });
+  const material = new MeshLambertMaterial({ color: new Color().setHex(swatch.side, SRGBColorSpace) });
   materials.set(type, material);
   return material;
 };
 
 export const makeBlockMesh = (type: BlockType): Mesh => {
   const mesh = new Mesh(geometry, blockMaterial(type));
-  mesh.castShadow = false;
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   return mesh;
 };
 

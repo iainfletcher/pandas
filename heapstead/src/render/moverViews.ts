@@ -1,6 +1,6 @@
 import {
   Group, Mesh, BoxGeometry, CylinderGeometry, MeshLambertMaterial,
-  Vector3, Quaternion, Matrix4, type Material,
+  Vector3, Quaternion, Matrix4, Color, SRGBColorSpace, type Material,
 } from 'three';
 import type { MoverSnapshot, MoverKind } from '../sim/mover.ts';
 import type { Vec3 } from '../sim/vec.ts';
@@ -17,11 +17,14 @@ import { BlockPool } from './blockViews.ts';
  * lag, swing, bob or squash freely, because the sim already knows the answer.
  */
 
-const mat = (colour: number): Material => new MeshLambertMaterial({ color: colour });
+const mat = (colour: number): Material =>
+  new MeshLambertMaterial({ color: new Color().setHex(colour, SRGBColorSpace) });
 
 const box = (w: number, h: number, d: number, colour: number, x = 0, y = 0, z = 0): Mesh => {
   const mesh = new Mesh(new BoxGeometry(w, h, d), mat(colour));
   mesh.position.set(x, y, z);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   return mesh;
 };
 
@@ -66,19 +69,42 @@ interface Puff { mesh: Mesh; age: number; vx: number; vy: number; vz: number }
 export class DiggerView extends MoverView {
   private readonly chassis = new Group();
   private readonly arm = new Group();
+  private readonly forearm = new Group();
   private readonly puffs: Puff[] = [];
   private readonly puffGroup = new Group();
 
   constructor() {
     super();
-    this.chassis.add(box(1.0, 0.34, 1.2, MACHINE.diggerTrim, 0, 0.17, 0));
-    this.chassis.add(box(0.82, 0.46, 0.86, MACHINE.diggerBody, -0.05, 0.6, 0));
-    this.chassis.add(box(0.5, 0.34, 0.5, MACHINE.diggerTrim, -0.1, 0.98, 0));
-    // The arm reaches forward along +X, which is what the facing yaw orients.
-    this.arm.position.set(0.35, 0.62, 0);
-    this.arm.add(box(0.78, 0.18, 0.18, MACHINE.diggerArm, 0.34, 0, 0));
-    this.arm.add(box(0.4, 0.36, 0.5, MACHINE.diggerBucket, 0.76, -0.1, 0));
+
+    // Tracks, with rollers proud of them so the silhouette is not one slab.
+    for (const z of [-0.35, 0.35]) {
+      this.chassis.add(box(1.12, 0.28, 0.3, MACHINE.diggerTrim, 0, 0.14, z));
+      for (const x of [-0.42, 0, 0.42]) {
+        this.chassis.add(box(0.16, 0.16, 0.36, MACHINE.wheel, x, 0.14, z));
+      }
+    }
+    // Deck, house and a counterweight to balance the arm.
+    this.chassis.add(box(0.98, 0.12, 0.86, MACHINE.diggerTrim, 0, 0.34, 0));
+    this.chassis.add(box(0.66, 0.42, 0.72, MACHINE.diggerBody, -0.12, 0.61, 0));
+    this.chassis.add(box(0.2, 0.34, 0.66, MACHINE.diggerTrim, -0.52, 0.57, 0));
+    this.chassis.add(box(0.16, 0.26, 0.54, MACHINE.diggerCab, 0.19, 0.66, 0));
+    this.chassis.add(box(0.5, 0.08, 0.62, MACHINE.diggerTrim, -0.1, 0.84, 0));
+    this.chassis.add(box(0.1, 0.22, 0.1, MACHINE.metal, -0.34, 0.95, -0.2));
+
+    /*
+     * The arm reaches forward along +X, which is what the facing yaw orients.
+     * Two joints rather than one: a boom off the deck and a forearm carrying
+     * the bucket, so the dig stroke folds instead of waving a single stick.
+     */
+    this.arm.position.set(0.24, 0.6, 0);
+    this.arm.add(box(0.72, 0.16, 0.16, MACHINE.diggerArm, 0.34, 0.12, 0));
+    this.forearm.position.set(0.68, 0.24, 0);
+    this.forearm.add(box(0.5, 0.13, 0.13, MACHINE.diggerArm, 0.22, -0.14, 0));
+    this.forearm.add(box(0.34, 0.3, 0.46, MACHINE.diggerBucket, 0.5, -0.3, 0));
+    this.forearm.add(box(0.3, 0.1, 0.44, MACHINE.diggerBucket, 0.62, -0.44, 0));
+    this.arm.add(this.forearm);
     this.chassis.add(this.arm);
+
     this.group.add(this.chassis);
     this.group.add(this.puffGroup);
   }
@@ -93,9 +119,11 @@ export class DiggerView extends MoverView {
       const phase = snapshot.stateProgress * TAU * cfg.rocksPerDig;
       this.chassis.rotation.z = Math.sin(phase) * cfg.rockRadians;
       this.arm.rotation.z = -Math.sin(phase) * cfg.rockRadians * 1.6;
+      this.forearm.rotation.z = Math.sin(phase + 0.9) * cfg.rockRadians * 2.2;
     } else {
       this.chassis.rotation.z *= 0.86;
       this.arm.rotation.z *= 0.86;
+      this.forearm.rotation.z *= 0.86;
     }
 
     // The stroke that frees the block is the one that puffs.
@@ -110,6 +138,8 @@ export class DiggerView extends MoverView {
     const cfg = RENDER.motion.digger;
     for (let i = 0; i < cfg.puffCount; i++) {
       const mesh = box(1, 1, 1, MACHINE.puff);
+      mesh.castShadow = false;
+      mesh.receiveShadow = false;
       mesh.scale.setScalar(cfg.puffStartScale);
       mesh.position.set(0.9, 0.3, 0);
       // Deterministic-enough spread; this is decoration, not simulation.
@@ -234,26 +264,40 @@ export class BarrowView extends MoverView {
   constructor() {
     super();
     const cfg = RENDER.motion.barrow;
-    this.chassis.add(box(0.78, 0.14, 0.5, MACHINE.barrowBody, 0, 0.3, 0));
-    // Handles trailing behind.
-    this.chassis.add(box(0.5, 0.09, 0.09, MACHINE.barrowBody, -0.6, 0.46, -0.18));
-    this.chassis.add(box(0.5, 0.09, 0.09, MACHINE.barrowBody, -0.6, 0.46, 0.18));
 
-    // The tray pivots about the axle, which is what makes the tip read as a dump.
-    this.tray.position.set(0.18, 0.38, 0);
-    this.tray.add(box(0.62, 0.1, 0.62, MACHINE.barrowTray, 0, 0, 0));
-    this.tray.add(box(0.1, 0.34, 0.62, MACHINE.barrowTray, -0.31, 0.17, 0));
-    this.tray.add(box(0.62, 0.34, 0.1, MACHINE.barrowTray, 0, 0.17, -0.31));
-    this.tray.add(box(0.62, 0.34, 0.1, MACHINE.barrowTray, 0, 0.17, 0.31));
+    // Frame: two rails running fore-and-aft, ending in handles, with a pair
+    // of stubby legs so a parked barrow rests instead of hovering.
+    for (const z of [-0.19, 0.19]) {
+      this.chassis.add(box(1.0, 0.08, 0.08, MACHINE.barrowBody, -0.08, 0.32, z));
+      this.chassis.add(box(0.1, 0.1, 0.1, MACHINE.metal, -0.62, 0.32, z));
+      this.chassis.add(box(0.08, 0.22, 0.08, MACHINE.barrowBody, -0.4, 0.2, z));
+    }
+    this.chassis.add(box(0.1, 0.08, 0.46, MACHINE.barrowBody, -0.5, 0.32, 0));
+
+    // The tub pivots about the axle, which is what makes the tip read as a dump.
+    this.tray.position.set(0.16, 0.36, 0);
+    this.tray.add(box(0.66, 0.09, 0.6, MACHINE.barrowTray, 0, 0, 0));
+    this.tray.add(box(0.09, 0.36, 0.6, MACHINE.barrowTray, -0.33, 0.18, 0));
+    this.tray.add(box(0.66, 0.3, 0.09, MACHINE.barrowTray, 0.02, 0.15, -0.31));
+    this.tray.add(box(0.66, 0.3, 0.09, MACHINE.barrowTray, 0.02, 0.15, 0.31));
+    // Front lip lower than the sides, so it reads as something you tip out of.
+    this.tray.add(box(0.09, 0.2, 0.6, MACHINE.barrowTray, 0.35, 0.1, 0));
+    this.tray.add(box(0.7, 0.05, 0.66, MACHINE.barrowBody, 0.02, 0.32, 0));
     this.chassis.add(this.tray);
 
     this.wheel = new Mesh(
       new CylinderGeometry(cfg.wheelRadius, cfg.wheelRadius, 0.12, 12),
       mat(MACHINE.wheel),
     );
+    this.wheel.castShadow = true;
+    this.wheel.receiveShadow = true;
     this.wheel.rotation.x = Math.PI / 2;
-    this.wheel.position.set(0.42, cfg.wheelRadius, 0);
+    this.wheel.position.set(0.46, cfg.wheelRadius, 0);
     this.chassis.add(this.wheel);
+    this.chassis.add(box(0.1, 0.1, 0.5, MACHINE.metal, 0.46, cfg.wheelRadius, 0));
+    for (const z of [-0.16, 0.16]) {
+      this.chassis.add(box(0.34, 0.07, 0.07, MACHINE.barrowBody, 0.3, 0.3, z));
+    }
     this.group.add(this.chassis);
   }
 
@@ -287,7 +331,7 @@ export class BarrowView extends MoverView {
 export class CraneView extends MoverView {
   private readonly jib = new Group();
   private readonly cable: Mesh;
-  private readonly hookMesh: Mesh;
+  private readonly hookMesh: Group;
   /** Swing angles about the two horizontal axes, and their rates. */
   private swingX = 0;
   private swingZ = 0;
@@ -296,11 +340,31 @@ export class CraneView extends MoverView {
 
   constructor() {
     super();
-    this.group.add(box(1.3, 0.3, 1.3, MACHINE.craneMast, 0, 0.15, 0));
-    this.group.add(box(0.34, RENDER.motion.crane.mastHeight, 0.34, MACHINE.craneMast, 0, RENDER.motion.crane.mastHeight / 2, 0));
+    const mastHeight = RENDER.motion.crane.mastHeight;
+
+    // Plinth and feet.
+    this.group.add(box(1.25, 0.18, 1.25, MACHINE.craneMast, 0, 0.09, 0));
+    for (const [fx, fz] of [[-0.5, -0.5], [0.5, -0.5], [-0.5, 0.5], [0.5, 0.5]] as const) {
+      this.group.add(box(0.26, 0.12, 0.26, MACHINE.metal, fx, 0.06, fz));
+    }
+    // A lattice mast: four legs and three bands. Four thin posts read as
+    // structure where one fat post reads as a fencepost, and it costs eight
+    // boxes drawn once.
+    for (const [lx, lz] of [[-0.17, -0.17], [0.17, -0.17], [-0.17, 0.17], [0.17, 0.17]] as const) {
+      this.group.add(box(0.11, mastHeight, 0.11, MACHINE.craneMast, lx, mastHeight / 2, lz));
+    }
+    for (const bandY of [0.55, 1.45, 2.35]) {
+      this.group.add(box(0.46, 0.08, 0.46, MACHINE.craneJib, 0, bandY, 0));
+    }
+    // Operator's cab tucked against the mast foot.
+    this.group.add(box(0.44, 0.42, 0.5, MACHINE.craneMast, -0.5, 0.39, 0));
+    this.group.add(box(0.08, 0.24, 0.36, MACHINE.craneCab, -0.73, 0.44, 0));
+
     this.group.add(this.jib);
-    this.cable = box(0.06, 1, 0.06, MACHINE.cable);
-    this.hookMesh = box(0.26, 0.2, 0.26, MACHINE.craneJib);
+    this.cable = box(0.05, 1, 0.05, MACHINE.cable);
+    this.hookMesh = new Group();
+    this.hookMesh.add(box(0.3, 0.16, 0.3, MACHINE.metal));
+    this.hookMesh.add(box(0.1, 0.22, 0.1, MACHINE.metal, 0, -0.18, 0));
     this.group.add(this.cable);
     this.group.add(this.hookMesh);
   }
@@ -317,7 +381,13 @@ export class CraneView extends MoverView {
     this.jib.position.set((hook.x - base.x) / 2, top.y - base.y, (hook.z - base.z) / 2);
     this.jib.rotation.y = -Math.atan2(hook.z - base.z, hook.x - base.x);
     this.jib.clear();
-    this.jib.add(box(Math.max(reach, 0.4), 0.2, 0.24, MACHINE.craneJib));
+    const jibLength = Math.max(reach, 0.4);
+    this.jib.add(box(jibLength, 0.18, 0.2, MACHINE.craneJib, 0, 0.04, 0));
+    this.jib.add(box(jibLength * 0.92, 0.08, 0.1, MACHINE.craneMast, 0, -0.1, 0));
+    // Counterweight on the short end, so the jib looks balanced rather than
+    // cantilevered off nothing.
+    this.jib.add(box(0.3, 0.34, 0.42, MACHINE.craneMast, -jibLength / 2 - 0.16, -0.02, 0));
+    this.jib.add(box(0.14, 0.2, 0.22, MACHINE.metal, jibLength / 2 - 0.05, -0.06, 0));
 
     /*
      * The pendulum (SPEC §11.1).

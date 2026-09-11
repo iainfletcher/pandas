@@ -1,7 +1,7 @@
 import { BufferGeometry, BufferAttribute } from 'three';
 import type { VoxelWorld } from '../sim/world.ts';
 import { BlockType } from '../sim/blocks.ts';
-import { faceColour } from './palette.ts';
+import { faceColour, swatchFor, linearOf } from './palette.ts';
 import { RENDER } from './renderConfig.ts';
 
 /**
@@ -40,6 +40,19 @@ const FACES: readonly Face[] = [
 const CORNERS: readonly (readonly [number, number])[] = [[0, 0], [1, 0], [1, 1], [0, 1]];
 
 /**
+ * A stable pseudo-random value in [0, 1) for a cell, so a block's mottling is
+ * the same every time the chunk is re-meshed. Without per-block variation a
+ * grass plain is one flat wash of a single colour over hundreds of cells,
+ * which is the single biggest thing that makes voxel terrain look cheap.
+ */
+const hashCell = (x: number, y: number, z: number): number => {
+  let h = Math.imul(x, 374761393) + Math.imul(y, 668265263) + Math.imul(z, 1274126177);
+  h = (h ^ (h >>> 13)) >>> 0;
+  h = Math.imul(h, 1274126177) >>> 0;
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+};
+
+/**
  * Occlusion level 0..3 for one face vertex: 3 is fully open, 0 fully enclosed.
  * The `side1 && side2` case is the classic one — two edge neighbours meeting
  * fully occlude the corner regardless of what is diagonally beyond it.
@@ -76,15 +89,20 @@ export const meshChunk = (world: VoxelWorld, chunkIndex: number): ChunkMesh | nu
         const type = world.get(x, y, z);
         if (type === BlockType.Air) continue;
 
+        // One mottling factor per block, shared by all six of its faces, so a
+        // block reads as a single object rather than six unrelated squares.
+        const grain = 1 + (hashCell(x, y, z) - 0.5) * 2 * swatchFor(type).grain;
+
         for (const face of FACES) {
           const [nx, ny, nz] = face.n;
           // Face culling: skip anything a neighbouring block already hides.
           if (world.isSolidAt(x + nx, y + ny, z + nz)) continue;
 
-          const hex = faceColour(type, ny);
-          const r = ((hex >> 16) & 0xff) / 255;
-          const g = ((hex >> 8) & 0xff) / 255;
-          const b = (hex & 0xff) / 255;
+          // Linear-light, because that is the space the renderer shades in.
+          const linear = linearOf(faceColour(type, ny));
+          const r = linear.r * grain;
+          const g = linear.g * grain;
+          const b = linear.b * grain;
 
           const [ux, uy, uz] = face.u;
           const [vx, vy, vz] = face.v;

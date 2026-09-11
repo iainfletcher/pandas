@@ -23,16 +23,23 @@ export const RENDER = {
 
   /** Per-vertex ambient occlusion (SPEC §10). Index by occlusion level 0..3. */
   ao: {
-    levels: [0.62, 0.76, 0.89, 1.0] as const,
+    levels: [0.63, 0.78, 0.91, 1.0] as const,
   },
 
   light: {
-    ambient: 0.62,
-    sun: 0.85,
+    /** Tone-mapping exposure. Raise for a brighter, flatter day. */
+    exposure: 1.06,
+    /** Sky-and-ground ambience. Does most of the work in shadowed areas. */
+    hemisphere: 1.42,
+    sun: 1.45,
     /** Warm key from the south-west, so the cliff face reads. */
-    sunDirection: { x: -0.55, y: 1.0, z: 0.42 },
+    sunDirection: { x: -0.62, y: 0.95, z: 0.5 },
     /** A dim cool fill from the opposite side keeps shadows from going muddy. */
-    fill: 0.18,
+    fill: 0.22,
+    shadowMapSize: 2048,
+    /** Nudged off the surface to keep flat-lit voxel faces from self-striping. */
+    shadowBias: -0.0006,
+    shadowNormalBias: 0.035,
   },
 
   /** Signature motions (SPEC §11). Amplitudes are deliberately small: calm. */

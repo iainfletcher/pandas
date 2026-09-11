@@ -81,6 +81,8 @@ declare global {
       runTicks(n: number): void;
       camera(distance: number, azimuth: number, elevation: number, tx?: number, ty?: number, tz?: number): void;
       overlay(visible: boolean): void;
+      /** World position of the first mover of a kind, for aiming the camera. */
+      moverPos(kind: string): { x: number; y: number; z: number } | null;
       state(): { tick: number; movers: number; lanes: number; triangles: number };
     };
   }
@@ -102,6 +104,13 @@ window.heapstead = {
     session.renderer.orbit.set(distance, azimuth, elevation, target);
   },
   overlay: (visible) => overlay.setVisible(visible),
+  moverPos: (kind) => {
+    const mover = session.sim.movers.find((m) => m.kind === kind);
+    if (mover === undefined) return null;
+    const snap = mover.snapshot();
+    const p = snap.parts['hook'] ?? snap.pos;
+    return { x: p.x, y: p.y, z: p.z };
+  },
   state: () => ({
     tick: session.sim.tick,
     movers: session.sim.movers.length,

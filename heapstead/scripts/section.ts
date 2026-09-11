@@ -4,7 +4,10 @@ import { BlockType } from '../src/sim/blocks.ts';
 const { world, lanes } = buildScene(1);
 const lane = lanes[0]!;
 const z = Math.round(lane.z0 + lane.width / 2);
-const glyph = { [BlockType.Air]: '.', [BlockType.Soil]: 's', [BlockType.Stone]: '#', [BlockType.Grass]: 'G' } as Record<number, string>;
+const glyph = {
+  [BlockType.Air]: '.', [BlockType.Soil]: 's', [BlockType.Stone]: '#',
+  [BlockType.Grass]: 'G', [BlockType.Path]: '-', [BlockType.Wood]: 'T', [BlockType.Leaf]: '*',
+} as Record<number, string>;
 
 console.log(`world ${world.sizeX} x ${world.sizeY} x ${world.sizeZ}, cross-section at z=${z}`);
 console.log('    ' + Array.from({ length: world.sizeX }, (_, x) => (x % 10 === 0 ? String((x / 10) % 10) : ' ')).join(''));

@@ -1,6 +1,7 @@
 import {
   Scene, WebGLRenderer, Mesh, MeshLambertMaterial, Group, Fog, Color,
-  AmbientLight, DirectionalLight, Vector3, FrontSide,
+  HemisphereLight, DirectionalLight, Vector3, FrontSide, PCFSoftShadowMap,
+  ACESFilmicToneMapping, SRGBColorSpace,
 } from 'three';
 import type { Sim, SimSnapshot } from '../sim/sim.ts';
 import type { MoverSnapshot, CarriedBlock } from '../sim/mover.ts';
@@ -9,6 +10,7 @@ import { lerp } from '../sim/vec.ts';
 import { meshChunk } from './mesher.ts';
 import { OrbitCamera } from './camera.ts';
 import { SCENE } from './palette.ts';
+import { makeSky } from './sky.ts';
 import { RENDER } from './renderConfig.ts';
 import { makeView, type MoverView, type FrameContext } from './moverViews.ts';
 import { BlockPool, squashScale, type Squash } from './blockViews.ts';
@@ -42,16 +44,55 @@ export class Renderer {
     this.sim = sim;
     this.renderer = new WebGLRenderer({ canvas, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.scene.background = new Color(SCENE.background);
-    this.scene.fog = new Fog(SCENE.fog, SCENE.fogNear, SCENE.fogFar);
+    this.renderer.outputColorSpace = SRGBColorSpace;
+    // Filmic rolloff: flat-shaded voxels blow out into white under a strong
+    // key without it, and the warm palette survives the curve better than it
+    // survives clipping.
+    this.renderer.toneMapping = ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = RENDER.light.exposure;
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = PCFSoftShadowMap;
 
+    this.scene.background = new Color().setHex(SCENE.skyHorizon, SRGBColorSpace);
+    this.scene.fog = new Fog(new Color().setHex(SCENE.fog, SRGBColorSpace), SCENE.fogNear, SCENE.fogFar);
+
+    const span = Math.max(sim.world.sizeX, sim.world.sizeZ);
+    this.scene.add(makeSky(span * 3));
+
+    /*
+     * Lighting: a hemisphere for ambience, one shadow-casting key, one cool
+     * fill. The hemisphere is what stops shadowed faces going dead grey — it
+     * feeds them sky from above and bounced earth from below, which is most of
+     * what makes an outdoor scene feel outdoors.
+     */
     const light = RENDER.light;
-    this.scene.add(new AmbientLight(SCENE.ambientColour, light.ambient));
-    const sun = new DirectionalLight(SCENE.sunColour, light.sun);
-    sun.position.set(light.sunDirection.x, light.sunDirection.y, light.sunDirection.z).normalize();
-    this.scene.add(sun);
-    const fill = new DirectionalLight(SCENE.fillColour, light.fill);
-    fill.position.set(-light.sunDirection.x, 0.5, -light.sunDirection.z).normalize();
+    this.scene.add(new HemisphereLight(
+      new Color().setHex(SCENE.hemiSky, SRGBColorSpace),
+      new Color().setHex(SCENE.hemiGround, SRGBColorSpace),
+      light.hemisphere,
+    ));
+
+    const sun = new DirectionalLight(new Color().setHex(SCENE.sunColour, SRGBColorSpace), light.sun);
+    sun.position.set(light.sunDirection.x, light.sunDirection.y, light.sunDirection.z)
+      .normalize().multiplyScalar(span);
+    sun.target.position.set(sim.world.sizeX / 2, 0, sim.world.sizeZ / 2);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(light.shadowMapSize, light.shadowMapSize);
+    // Fit the shadow frustum to the world: too loose and the map is all
+    // texels spent on empty air, too tight and the far end goes unshadowed.
+    const extent = span * 0.72;
+    sun.shadow.camera.left = -extent;
+    sun.shadow.camera.right = extent;
+    sun.shadow.camera.top = extent;
+    sun.shadow.camera.bottom = -extent;
+    sun.shadow.camera.near = 1;
+    sun.shadow.camera.far = span * 3;
+    sun.shadow.bias = light.shadowBias;
+    sun.shadow.normalBias = light.shadowNormalBias;
+    this.scene.add(sun, sun.target);
+
+    const fill = new DirectionalLight(new Color().setHex(SCENE.fillColour, SRGBColorSpace), light.fill);
+    fill.position.set(-light.sunDirection.x, 0.45, -light.sunDirection.z).normalize();
     this.scene.add(fill);
 
     this.scene.add(this.chunkGroup, this.moverGroup, this.blocks.group);
@@ -94,6 +135,8 @@ export class Renderer {
       if (built === null) continue;
       const mesh = new Mesh(built.geometry, worldMaterial);
       mesh.frustumCulled = true;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
       this.chunkGroup.add(mesh);
       this.chunkMeshes.set(index, mesh);
     }

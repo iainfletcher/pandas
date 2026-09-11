@@ -64,7 +64,7 @@ export class Director {
    */
   private nextDigJob(world: VoxelWorld, lane: Lane): DiggerJob | null {
     const { x0, x1, z0, z1, floorY } = lane.digArea;
-    for (let y = 23; y >= floorY; y--) {
+    for (let y = world.sizeY - 1; y >= floorY; y--) {
       for (let z = z0; z <= z1; z++) {
         for (let x = x0; x <= x1; x++) {
           if (!world.isSolidAt(x, y, z)) continue;
@@ -97,7 +97,7 @@ export class Director {
   }
 
   private topmostSolidIn(world: VoxelWorld, x0: number, x1: number, z0: number, z1: number): Vec3 | null {
-    for (let y = 23; y >= 0; y--) {
+    for (let y = world.sizeY - 1; y >= 0; y--) {
       for (let z = z0; z <= z1; z++) {
         for (let x = x0; x <= x1; x++) {
           if (world.isSolidAt(x, y, z) && !world.isSolidAt(x, y + 1, z)) return vec(x, y, z);

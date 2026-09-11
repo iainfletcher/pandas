@@ -145,3 +145,60 @@ Format: `date — decision — why`.
   should have been culled, and triangles wound the wrong way (which vanish
   under backface culling exactly when the camera moves). Both are cheap to
   assert and expensive to notice later.
+
+### Art pass (session 2)
+
+- **2026-09-11 — Vertex colours are written in linear light, not sRGB.** The
+  mesher had been packing sRGB bytes straight into the colour buffer, which
+  three then treats as linear: everything came out muddy and over-dark, and it
+  looked exactly like badly chosen colours rather than a colour-space bug.
+  `palette.linearOf` converts once and caches.
+
+- **2026-09-11 — Per-block mottling, hashed from cell coordinates.** A grass
+  plain is otherwise one flat wash of a single colour across hundreds of cells.
+  Hashed rather than random so a chunk re-mesh does not reshuffle the terrain,
+  and one factor per *block* rather than per face, so a block still reads as
+  one object. Strength is per material (`Swatch.grain`).
+
+- **2026-09-11 — Shadow-casting key light, hemisphere ambience, ACES tone
+  mapping.** The hemisphere matters more than the key: it feeds shadowed faces
+  sky from above and bounced earth from below, which is most of what makes an
+  outdoor scene feel outdoors. Tone mapping stops flat-shaded voxels clipping
+  to white under a strong sun.
+
+- **2026-09-11 — The world's underside is carved into a keel.** The flat cut
+  faces of a bounded world are the least attractive thing about any voxel scene
+  viewed from outside itself. Stepping the lower layers inward costs a few
+  hundred blocks and makes the whole thing read as a diorama on a plinth.
+
+- **2026-09-11 — Scenery is kept out of a flat corridor around each lane.**
+  Movers follow `surfaceY`, so a hillock in the barrow's path would have it
+  climbing scenery and a tree by the chute would swallow the digger. Trees are
+  held back further still (±4 rather than ±2): the first close-up after
+  planting was a photograph of bark, because a tree between the camera and the
+  machines is worse than no tree at all.
+
+- **2026-09-11 — Ground interest comes from surface *material*, not more
+  height noise.** An early pass used a short noise wavelength and a tall
+  amplitude; it terraced into a staircase quilt at the same visual scale as the
+  machines, with nowhere for the eye to rest. Gentle long-wavelength swells
+  plus sparse dry patches, trees, shrubs and boulders read far better.
+
+- **2026-09-11 — Dry patches are applied after planting, not before.** Run
+  first, they convert the grass that `plantTree` roots in, and the island comes
+  out bald — twenty trees became one.
+
+- **2026-09-11 — Spoil piles are a mix of materials, chosen by noise.** A pile
+  of one block type is a flat slab of one colour however good the lighting is.
+  Noise rather than a per-cell hash, so materials clump into bands the way
+  tipped loads do; a hash gives confetti.
+
+- **2026-09-11 — Screenshot close-ups aim at a mover, not at coordinates.**
+  `window.heapstead.moverPos(kind)` feeds the camera target. Hand-typed targets
+  go stale the moment the layout moves, and the failure mode is a screenshot of
+  scenery with no machine in it.
+
+- **2026-09-11 — No trees or scenery in 20x mode.** Every z is inside some
+  lane's corridor there, so the decoration passes find nowhere to put anything.
+  That is correct: 20x exists to judge whether the machines feel calm, and
+  scenery would only get in the way of counting them.
